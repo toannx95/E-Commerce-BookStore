@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common-header" />
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+	
+	<div class="signup-form">
+	    <form th:action="@{/update}" method="POST" th:object="${user}">
+			<h2>Update information</h2>
+	        <div class="form-group">
+				<div class="row">
+					<div class="col-xs-6"><input type="text" class="form-control" th:value="${user.firstName}" required="required" /></div>
+					<div class="col-xs-6"><input type="text" class="form-control" th:value="${user.lastName}" required="required" /></div>
+				</div>        	
+	        </div>
+	        <div class="form-group">
+	        	<input type="text" class="form-control" th:value="${user.userName}" required="required" />
+	        </div>
+	        <div class="form-group">
+	            <input type="password" class="form-control" th:field="*{password}" required="required" />
+	        </div>
+	        <div class="form-group">
+	            <input type="password" class="form-control" th:field="*{newPassword}" />
+	        </div>
+	        <div class="form-group">
+	        	<input type="email" class="form-control" th:value="${user.email}" required="required" />
+	        </div>
+			<div class="form-group">
+	        	<input type="text" class="form-control" th:value="${user.phone}" />
+	        </div>
+	        
+	        <div class="alert alert-danger" th:if="${existsUserMsg}">
+	        	<p>Username is already registered</p>
+	        </div>
+	        <div class="alert alert-success" th:if="${successMsg}">
+	        	<p>Update successfully!</p>
+	        </div>
+	        
+			<div class="form-group">
+	            <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+	        </div>
+	    </form>
+		<div class="text-center">Already have an account? <a href="login">Sign in</a></div>
+	</div>	
+
+	<div th:replace="common/header :: footer"></div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+</html>

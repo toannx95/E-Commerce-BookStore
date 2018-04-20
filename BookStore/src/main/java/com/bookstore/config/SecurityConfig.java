@@ -34,12 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
 			.antMatchers("/admin/**").hasRole("ADMIN")
-			.antMatchers("/welcome").hasAnyRole("ADMIN", "MEMBER")
 	
 		//login configuration
 		.and().formLogin()
 			.loginPage("/login")
-			.defaultSuccessUrl("/welcome")
+			.defaultSuccessUrl("/")
 			.failureUrl("/login?error")
 			.usernameParameter("username")
 			.passwordParameter("password")

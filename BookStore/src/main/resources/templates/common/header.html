@@ -20,59 +20,134 @@
 <link th:href="@{/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
 <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
 
+<link href="https://fonts.googleapis.com/css?family=Merienda+One" rel="stylesheet"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+
 </head>
 
 <body>
-	
-	<nav class="navbar navbar-default navbar-expand-xl navbar-light">
-		<div class="navbar-header d-flex col">
-			<a class="navbar-brand" href="#"><i class="fa fa-cube"></i>Brand<b>Name</b></a>  		
-			<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
-				<span class="navbar-toggler-icon"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-		</div>
-		<!-- Collection of nav links, forms, and other content for toggling -->
-		<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
-			<ul class="nav navbar-nav">
-				<li class="nav-item active"><a href="#" class="nav-link">Home</a></li>
-				<li class="nav-item"><a href="#" class="nav-link">About</a></li>
-				<li class="nav-item dropdown">
-					<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#">Services <b class="caret"></b></a>
-					<ul class="dropdown-menu">					
-						<li><a href="#" class="dropdown-item">Web Design</a></li>
-						<li><a href="#" class="dropdown-item">Web Development</a></li>
-						<li><a href="#" class="dropdown-item">Graphic Design</a></li>
-						<li><a href="#" class="dropdown-item">Digital Marketing</a></li>
-					</ul>
-				</li>
-				<li class="nav-item"><a href="#" class="nav-link">Blog</a></li>
-				<li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
-			</ul>
-			<form class="navbar-form form-inline">
-				<div class="input-group search-box">								
-					<input type="text" id="search" class="form-control" placeholder="Search by Name">
-					<span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
+	<div th:fragment="navbar">
+		<div class="container">
+		    <nav class="navbar navbar-default navbar-expand-xl navbar-light">
+				<div class="navbar-header d-flex col">
+					<a class="navbar-brand" th:href="@{/}"><i class="fa fa-cube"></i>Book<b>Store</b></a>  		
+					<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
+						<span class="navbar-toggler-icon"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
 				</div>
-			</form>
-			<ul class="nav navbar-nav navbar-right ml-auto">
-				<li class="nav-item"><a href="#" class="nav-link notifications"><i class="fa fa-bell-o"></i><span class="badge">1</span></a></li>
-				<li class="nav-item"><a href="#" class="nav-link messages"><i class="fa fa-envelope-o"></i><span class="badge">10</span></a></li>
-				<li class="nav-item dropdown">
-					<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg" class="avatar" alt="Avatar"> Paula Wilson <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a></li>
-						<li><a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a></li>
-						<li><a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a></li>
-						<li class="divider dropdown-divider"></li>
-						<li><a href="#" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a></li>
+				<!-- Collection of nav links, forms, and other content for toggling -->
+				<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+					<ul class="nav navbar-nav">
+						<li class="nav-item active"><a th:href="@{/}" class="nav-link">Home</a></li>
+						<li class="nav-item"><a href="#" class="nav-link">About</a></li>
+						<li class="nav-item dropdown">
+							<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#">Services <b class="caret"></b></a>
+							<ul class="dropdown-menu">					
+								<li><a th:href="@{/bookshelf}" class="dropdown-item">Bookshelf</a></li>
+								<li><a th:href="@{/hours}" class="dropdown-item">Time Open</a></li>
+								<li><a th:href="@{/faq}" class="dropdown-item">FAQ</a></li>
+							</ul>
+						</li>
 					</ul>
-				</li>
-			</ul>
+					<form class="navbar-form form-inline">
+						<div class="input-group search-box">								
+							<input type="text" id="search" class="form-control" placeholder="Search by Name"/>
+							<span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
+						</div>
+					</form>
+					<ul class="nav navbar-nav navbar-right ml-auto">
+						<li class="nav-item"><a th:href="@{/shoppingCart/cart}" class="nav-link notifications"><i class="fa fa-shopping-cart"></i><span class="badge">1</span></a></li>
+						<li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link notifications"><i class="fa fa-user-o"></i></a></li>
+						
+						<li class="nav-item dropdown">
+							<a sec:authorize="isAuthenticated()" href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action">
+								<img src="/images/user.png" class="avatar" alt="Avatar"/> 
+									<b th:inline="text" class="welcome"> [[${#httpServletRequest.remoteUser}]] </b> 
+									<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a></li>
+								<li class="divider dropdown-divider"></li>
+								<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
 		</div>
-	</nav>
+	</div>
+	
+	<div th:fragment="footer">
+		<br /> <br />
+		<footer>
+			<div class="row">
+				<div class="col-xs-3 footerleft">
+					<a th:href="@{/}"><img class="img-responsive"
+						src="/images/logo.png" style="width: 200px" /></a>
+					<p>
+						Serving customers with the best service
+					</p>
+				</div>
+				<div class="col-xs-3 paddingtop-bottom">
+					<h6 class="heading7">CONTACT</h6>
+					<ul class="post">
+						<p>
+							<i class="fa fa-map-pin"></i> 123 XXXXX Ave<br /> Thu Duc Dist. HCM
+						</p>
+						<p>
+							<i class="fa fa-phone"></i> Phone (CA) : +84 XXX XXX XXX
+						</p>
+						<p>
+							<i class="fa fa-envelope"></i> E-mail : info@bookstore.com
+						</p>
+					</ul>
+				</div>
+				<div class="col-xs-3 paddingtop-bottom">
+					<h6 class="heading7">LINKS</h6>
+					<ul class="footer-ul">
+						<li><a href="#"> Privacy Policy</a></li>
+						<li><a href="#"> Terms &#38; Conditions</a></li>
+						<li><a th:href="@{/faq}"> Frequently Ask Questions</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-3 paddingtop-bottom">
+					<h6 class="heading7">STORE HOURS</h6>
+					<div class="post">
+						<p>Mon - Sat: 9AM - 11PM</p>
+						<p>Sun: 10AM - 10PM</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<div class="copyright">
+			<div class="col-md-6">
+				<p>© 2018 - All Rights Reserved</p>
+			</div>
+			<div class="col-md-6">
+				<ul class="bottom_ul">
+					<li><a href="#">About us</a></li>
+					<li><a href="#">Blog</a></li>
+					<li><a th:href="@{/faq}">FAQ</a></li>
+					<li><a th:href="@{/hours}">Contact us</a></li>
+					<li><a href="#">Site Map</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div th:fragment="body-bottom-scripts">
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/scripts.js}"></script>
+
+		<!-- data Tables -->
+		<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+	</div>
 	
 </body>
 </html>

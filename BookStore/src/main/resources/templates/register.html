@@ -1,22 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common-header" />
 
-<head>
-<title>Login</title>
-<link rel="icon" href="/images/apple-touch-icon.png" />
-<!-- Bootstrap core CSS -->
-<link href="/css/bootstrap.min.css" rel="stylesheet" />
-
-<!-- Custom styles for this template -->
-<link href="/css/styles.css" rel="stylesheet" />
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet" />
-
-</head>
-
-<body>
+<body class="register">
 	
 	<div class="signup-form">
 	    <form th:action="@{/register}" method="POST" th:object="${user}" >
@@ -41,9 +27,11 @@
 	        	<input type="text" class="form-control" th:field="*{phone}" placeholder="Phone" />
 	        </div>
 	        
-	        <div class="form-group">
-	        	<span th:utext="${successMsg}"></span>
-				<span th:utext="${existsUserMsg}"></span>
+	        <div class="alert alert-danger" th:if="${existsUserMsg}">
+	        	<p>Username is already registered</p>
+	        </div>
+	        <div class="alert alert-success" th:if="${successMsg}">
+	        	<p>User has been registered successfully!</p>
 	        </div>
 	        
 			<div class="form-group">
@@ -53,5 +41,6 @@
 		<div class="text-center">Already have an account? <a href="login">Sign in</a></div>
 	</div>
 	
+	<div th:replace="common/header :: body-bottom-scripts"></div>
 </body>
 </html>

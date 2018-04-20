@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
 	private RoleService roleService;
 
 	@Override
+	public UserDTO findOne(Long id) {
+		return DTOConverter.convertUser(userRepository.findOne(id));
+	}
+
+	@Override
 	public UserDTO create(UserDTO userDTO) {
 		User user = new User();
 		user.setUserName(userDTO.getUserName());

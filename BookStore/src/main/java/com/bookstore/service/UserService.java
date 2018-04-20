@@ -4,6 +4,8 @@ import com.bookstore.dto.UserDTO;
 
 public interface UserService {
 
+	UserDTO findOne(Long id);
+
 	UserDTO create(UserDTO userDTO);
 
 	UserDTO findByUserNameAndEnabledTrue(String userName);

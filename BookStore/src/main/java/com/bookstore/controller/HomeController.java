@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bookstore.dto.UserDTO;
+import com.bookstore.repository.UserRepository;
 import com.bookstore.service.UserService;
 
 @Controller
@@ -21,14 +22,14 @@ public class HomeController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = { "", "login" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "login" }, method = RequestMethod.GET)
 	public String login() {
 		return "login";
 	}
 
-	@RequestMapping(value = "welcome", method = RequestMethod.GET)
-	public String home() {
-		return "welcome";
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String index() {
+		return "index";
 	}
 
 	@RequestMapping(value = "403", method = RequestMethod.GET)
@@ -47,12 +48,12 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public ModelAndView createNewUser(@ModelAttribute("user") @Valid UserDTO userDTO, BindingResult bindingResult) {
+	public ModelAndView register(@ModelAttribute("user") @Valid UserDTO userDTO, BindingResult bindingResult) {
 		ModelAndView mav = new ModelAndView();
 
 		UserDTO userExists = userService.findByUserName(userDTO.getUserName());
 		if (!Objects.isNull(userExists)) {
-			mav.addObject("existsUserMsg", "Username is already registered!");
+			mav.addObject("existsUserMsg", true);
 			mav.setViewName("register");
 			bindingResult.reject("userName");
 		}
@@ -61,10 +62,37 @@ public class HomeController {
 			mav.setViewName("register");
 		} else {
 			userService.create(userDTO);
-			mav.addObject("successMsg", "User has been registered successfully!");
+			mav.addObject("successMsg", true);
 			mav.addObject("user", new UserDTO());
 			mav.setViewName("register");
 		}
+		return mav;
+	}
+
+	@RequestMapping(value = "updateUserInfo", method = RequestMethod.POST)
+	public ModelAndView updateUserInfo(@ModelAttribute("user") @Valid UserDTO userDTO, @ModelAttribute("newPassword") String newPassword, BindingResult bindingResult) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		
+		UserDTO currentUser = userService.findOne(userDTO.getId());
+		if(Objects.isNull(currentUser)) {
+			throw new Exception("User not found!");
+		}
+		
+		if (!Objects.isNull(userService.findByUserName(userDTO.getUserName()))) {
+			mav.addObject("existsUserMsg", true);
+			mav.setViewName("updateUserInfo");
+			bindingResult.reject("userName");
+		}
+
+		if (bindingResult.hasErrors()) {
+			mav.setViewName("register");
+		} else {
+			userService.create(userDTO);
+			mav.addObject("successMsg", true);
+			mav.addObject("user", new UserDTO());
+			mav.setViewName("updateUserInfo");
+		}
+		
 		return mav;
 	}
 }
