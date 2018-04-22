@@ -14,7 +14,7 @@ import com.bookstore.enumeration.RoleEnum;
 import com.bookstore.repository.UserRepository;
 import com.bookstore.service.RoleService;
 import com.bookstore.service.UserService;
-import com.bookstore.util.BCryptPassword;
+import com.bookstore.util.SecurityUtility;
 import com.bookstore.util.converter.DAOConverter;
 import com.bookstore.util.converter.DTOConverter;
 
@@ -33,10 +33,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public UserDTO save(UserDTO userDTO) {
+		return DTOConverter.convertUser(userRepository.save(DAOConverter.convertUser(userDTO)));
+	}
+
+	@Override
 	public UserDTO create(UserDTO userDTO) {
 		User user = new User();
 		user.setUserName(userDTO.getUserName());
-		user.setPassword(BCryptPassword.cryptPasswordEncoder(userDTO.getPassword()));
+		user.setPassword(SecurityUtility.passwordEncoder().encode(userDTO.getPassword()));
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
 		user.setEmail(userDTO.getEmail());

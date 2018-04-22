@@ -13,7 +13,7 @@ import com.bookstore.entity.User;
 import com.bookstore.enumeration.RoleEnum;
 import com.bookstore.repository.RoleRepository;
 import com.bookstore.repository.UserRepository;
-import com.bookstore.util.BCryptPassword;
+import com.bookstore.util.SecurityUtility;
 
 @Component
 public class DataSeedingListener implements ApplicationListener<ContextRefreshedEvent> {
@@ -39,7 +39,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		if (Objects.isNull(userRepository.findByUserName("admin"))) {
 			User user = new User();
 			user.setUserName("admin");
-			user.setPassword(BCryptPassword.cryptPasswordEncoder("admin"));
+			user.setPassword(SecurityUtility.passwordEncoder().encode("admin"));
 			user.setFirstName("Toan");
 			user.setLastName("Nguyen");
 			user.setEmail("toannx@gmail.com");
@@ -57,7 +57,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		if (Objects.isNull(userRepository.findByUserName("member"))) {
 			User user = new User();
 			user.setUserName("member");
-			user.setPassword(BCryptPassword.cryptPasswordEncoder("member"));
+			user.setPassword(SecurityUtility.passwordEncoder().encode("member"));
 			user.setFirstName("Tony");
 			user.setLastName("Nguyen");
 			user.setEmail("tony@gmail.com");
