@@ -1,5 +1,7 @@
 package com.bookstore.dto;
 
+import java.util.Set;
+
 public class UserDTO {
 
 	private Long id;
@@ -10,13 +12,14 @@ public class UserDTO {
 	private String email;
 	private String phone;
 	private boolean enabled;
+	private Set<RoleDTO> roles;
 
 	public UserDTO() {
 		super();
 	}
 
 	public UserDTO(Long id, String userName, String password, String firstName, String lastName, String email,
-			String phone, boolean enabled) {
+			String phone, boolean enabled, Set<RoleDTO> roles) {
 		super();
 		this.id = id;
 		this.userName = userName;
@@ -26,6 +29,7 @@ public class UserDTO {
 		this.email = email;
 		this.phone = phone;
 		this.enabled = enabled;
+		this.roles = roles;
 	}
 
 	public Long getId() {
@@ -92,10 +96,19 @@ public class UserDTO {
 		this.enabled = enabled;
 	}
 
+	public Set<RoleDTO> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<RoleDTO> roles) {
+		this.roles = roles;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDTO [id=" + id + ", userName=" + userName + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled + "]";
+				+ ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled
+				+ ", roles=" + roles + "]";
 	}
 
 }

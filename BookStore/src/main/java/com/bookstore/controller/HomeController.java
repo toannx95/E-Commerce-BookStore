@@ -3,8 +3,6 @@ package com.bookstore.controller;
 import java.security.Principal;
 import java.util.Objects;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,24 +55,20 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public ModelAndView register(@ModelAttribute("user") @Valid UserDTO userDTO, BindingResult bindingResult) {
+	public ModelAndView register(@ModelAttribute("user") UserDTO userDTO) {
 		ModelAndView mav = new ModelAndView();
 
 		UserDTO userExists = userService.findByUserName(userDTO.getUserName());
 		if (!Objects.isNull(userExists)) {
 			mav.addObject("existsUserMsg", true);
 			mav.setViewName("register");
-			bindingResult.reject("userName");
+			return mav;
 		}
 
-		if (bindingResult.hasErrors()) {
-			mav.setViewName("register");
-		} else {
-			userService.create(userDTO);
-			mav.addObject("successMsg", true);
-			mav.addObject("user", new UserDTO());
-			mav.setViewName("register");
-		}
+		userService.create(userDTO);
+		mav.addObject("successMsg", true);
+		mav.addObject("user", new UserDTO());
+		mav.setViewName("register");
 		return mav;
 	}
 
@@ -113,14 +106,13 @@ public class HomeController {
 				currentUser.setPassword(bCryptPasswordEncoder.encode(newPassword));
 			} else {
 				mav.addObject("incorrectPasswordMsg", true);
-				mav.setViewName("userUpdateInfo");
+				mav.setViewName("updateUserInfo");
 				return mav;
 			}
 		}
 
 		currentUser.setFirstName(userDTO.getFirstName());
 		currentUser.setLastName(userDTO.getLastName());
-		currentUser.setUserName(userDTO.getUserName());
 		currentUser.setEmail(userDTO.getEmail());
 		currentUser.setPhone(userDTO.getPhone());
 
@@ -133,7 +125,6 @@ public class HomeController {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
 				userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
 		return mav;
 	}
 }

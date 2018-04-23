@@ -10,14 +10,10 @@ import org.springframework.stereotype.Component;
 public class SecurityUtility {
 
 	private static final String SALT = "salt";
-	
-//	public static String cryptPasswordEncoder(String password) {
-//		return new BCryptPasswordEncoder().encode(password);
-//	}
 
 	@Bean
-	public static BCryptPasswordEncoder passwordEncoder(){
+	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
 	}
-	
+
 }
