@@ -1,8 +1,10 @@
 package com.bookstore.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -50,12 +54,25 @@ public class User implements Serializable {
 			@JoinColumn(name = "role_id") })
 	private Set<Role> roles;
 
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private ShoppingCart shoppingCart;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private List<UserShipping> userShippingList;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private List<UserPayment> userPaymentList;
+
+	@OneToMany(mappedBy = "user")
+	private List<Order> orderList;
+
 	public User() {
 		super();
 	}
 
 	public User(Long id, String userName, String password, String firstName, String lastName, String email,
-			String phone, boolean enabled, Set<Role> roles) {
+			String phone, boolean enabled, Set<Role> roles, ShoppingCart shoppingCart,
+			List<UserShipping> userShippingList, List<UserPayment> userPaymentList, List<Order> orderList) {
 		super();
 		this.id = id;
 		this.userName = userName;
@@ -66,6 +83,10 @@ public class User implements Serializable {
 		this.phone = phone;
 		this.enabled = enabled;
 		this.roles = roles;
+		this.shoppingCart = shoppingCart;
+		this.userShippingList = userShippingList;
+		this.userPaymentList = userPaymentList;
+		this.orderList = orderList;
 	}
 
 	public Long getId() {
@@ -140,11 +161,36 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled
-				+ ", roles=" + roles + "]";
+	public ShoppingCart getShoppingCart() {
+		return shoppingCart;
+	}
+
+	public void setShoppingCart(ShoppingCart shoppingCart) {
+		this.shoppingCart = shoppingCart;
+	}
+
+	public List<UserShipping> getUserShippingList() {
+		return userShippingList;
+	}
+
+	public void setUserShippingList(List<UserShipping> userShippingList) {
+		this.userShippingList = userShippingList;
+	}
+
+	public List<UserPayment> getUserPaymentList() {
+		return userPaymentList;
+	}
+
+	public void setUserPaymentList(List<UserPayment> userPaymentList) {
+		this.userPaymentList = userPaymentList;
+	}
+
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
 	}
 
 }

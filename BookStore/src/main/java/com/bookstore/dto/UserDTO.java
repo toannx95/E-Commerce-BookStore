@@ -1,5 +1,6 @@
 package com.bookstore.dto;
 
+import java.util.List;
 import java.util.Set;
 
 public class UserDTO {
@@ -13,13 +14,18 @@ public class UserDTO {
 	private String phone;
 	private boolean enabled;
 	private Set<RoleDTO> roles;
+	private ShoppingCartDTO shoppingCart;
+	private List<UserShippingDTO> userShippingList;
+	private List<UserPaymentDTO> userPaymentList;
+	private List<OrderDTO> orderList;
 
 	public UserDTO() {
 		super();
 	}
 
 	public UserDTO(Long id, String userName, String password, String firstName, String lastName, String email,
-			String phone, boolean enabled, Set<RoleDTO> roles) {
+			String phone, boolean enabled, Set<RoleDTO> roles, ShoppingCartDTO shoppingCart,
+			List<UserShippingDTO> userShippingList, List<UserPaymentDTO> userPaymentList, List<OrderDTO> orderList) {
 		super();
 		this.id = id;
 		this.userName = userName;
@@ -30,6 +36,10 @@ public class UserDTO {
 		this.phone = phone;
 		this.enabled = enabled;
 		this.roles = roles;
+		this.shoppingCart = shoppingCart;
+		this.userShippingList = userShippingList;
+		this.userPaymentList = userPaymentList;
+		this.orderList = orderList;
 	}
 
 	public Long getId() {
@@ -104,11 +114,44 @@ public class UserDTO {
 		this.roles = roles;
 	}
 
+	public ShoppingCartDTO getShoppingCart() {
+		return shoppingCart;
+	}
+
+	public void setShoppingCart(ShoppingCartDTO shoppingCart) {
+		this.shoppingCart = shoppingCart;
+	}
+
+	public List<UserShippingDTO> getUserShippingList() {
+		return userShippingList;
+	}
+
+	public void setUserShippingList(List<UserShippingDTO> userShippingList) {
+		this.userShippingList = userShippingList;
+	}
+
+	public List<UserPaymentDTO> getUserPaymentList() {
+		return userPaymentList;
+	}
+
+	public void setUserPaymentList(List<UserPaymentDTO> userPaymentList) {
+		this.userPaymentList = userPaymentList;
+	}
+
+	public List<OrderDTO> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<OrderDTO> orderList) {
+		this.orderList = orderList;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDTO [id=" + id + ", userName=" + userName + ", password=" + password + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled
-				+ ", roles=" + roles + "]";
+				+ ", roles=" + roles + ", shoppingCart=" + shoppingCart + ", userShippingList=" + userShippingList
+				+ ", userPaymentList=" + userPaymentList + ", orderList=" + orderList + "]";
 	}
 
 }
