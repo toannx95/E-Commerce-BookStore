@@ -6,8 +6,13 @@ import com.bookstore.dataquery.dto.BookDTO;
 
 public interface BookService {
 
-	BookDTO create(BookDTO bookDTO);
-
 	List<BookDTO> findAll();
 
+	BookDTO findOne(Long id);
+
+	BookDTO create(BookDTO bookDTO);
+
+	BookDTO update(BookDTO bookDTO);
+
+	void delete(Long id);
 }

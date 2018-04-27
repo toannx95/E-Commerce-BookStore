@@ -22,11 +22,6 @@ public class BookServiceImpl implements BookService {
 	private BookRepository bookRepository;
 
 	@Override
-	public BookDTO create(BookDTO bookDTO) {
-		return DTOConverter.convertBook(bookRepository.save(DAOConverter.convertBook(bookDTO)));
-	}
-
-	@Override
 	public List<BookDTO> findAll() {
 		Iterable<Book> books = bookRepository.findAll();
 
@@ -36,6 +31,26 @@ public class BookServiceImpl implements BookService {
 
 		Stream<Book> bookStream = StreamSupport.stream(books.spliterator(), false);
 		return bookStream.map(DTOConverter::convertBook).collect(Collectors.toList());
+	}
+
+	@Override
+	public BookDTO findOne(Long id) {
+		return DTOConverter.convertBook(bookRepository.findOne(id));
+	}
+
+	@Override
+	public BookDTO create(BookDTO bookDTO) {
+		return DTOConverter.convertBook(bookRepository.save(DAOConverter.convertBook(bookDTO)));
+	}
+
+	@Override
+	public BookDTO update(BookDTO bookDTO) {
+		return DTOConverter.convertBook(bookRepository.save(DAOConverter.convertBook(bookDTO)));
+	}
+
+	@Override
+	public void delete(Long id) {
+		bookRepository.delete(id);
 	}
 
 }

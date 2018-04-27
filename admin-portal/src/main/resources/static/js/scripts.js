@@ -1,35 +1,84 @@
-/*function checkBillingAddress(){
-	if($('#theSameAsShippingAddress').is(":checked")){
-		$(".billingAddress").prop("disabled", true);
-	}else{
-		$(".billingAddress").prop("disabled", false);
-	}
-}*/
 
-function checkPasswordMatch(){
-	var password = $("#newPassword").val();
-	var confirmPassword = $("#confirmPassword").val();
-	
-	if(password == "" && confirmPassword == ""){
-		$("#checkPasswordMatch").html("");
-		$("#updateUserInfoBtn").prop('disabled', false);
-	}else{
-		if(password != confirmPassword){
-			$("#checkPasswordMatch").html("Passwords do not match.");
-			$("#updateUserInfoButton").prop('disabled', true);
-		}else{
-			$("#checkPasswordMatch").html("Passwords match.");
-			$("#updateUserInfoBtn").prop('disabled', false);
-		}
-	}
-}
-
-$(document).ready(function(){
-	/*$(".cartItemQty").on('change', function(){
-		var id = this.id;
-		$('#update-item-'+id).css('display', 'inline-block');
+$(document).ready(function() {
+	$('.delete-book').on('click', function (){
+		
+	    var path = 'deleteBook';
+	    
+		var id=$(this).attr('id');
+		
+		bootbox.confirm({
+			message: "Are you sure to remove this book? It can't be undone.",
+			buttons: {
+				cancel: {
+					label:'<i class="fa fa-times"></i> Cancel'
+				},
+				confirm: {
+					label:'<i class="fa fa-check"></i> Confirm'
+				}
+			},
+			callback: function(confirmed) {
+				if(confirmed) {
+					$.post(path, {'id':id}, function(res) {
+						location.reload();
+					});
+				}
+			}
+		});
 	});
-	$("#theSameAsShippingAddress").on('click', checkBillingAddress);*/
-	$("#confirmPassword").keyup(checkPasswordMatch);
-	$("#newPassword").keyup(checkPasswordMatch);
-})
+	
+	
+	
+	$('#deleteSelected').click(function() {
+		var idList= $('.checkboxBook');
+		var bookIdList=[];
+		for (var i = 0; i < idList.length; i++) {
+			if(idList[i].checked==true) {
+				bookIdList.push(idList[i]['id'])
+			}
+		}
+		
+		console.log(bookIdList);
+		
+		/*<![CDATA[*/
+	    var path = /*[[@{/}]]*/'deleteList';
+	    /*]]>*/
+	    
+	    bootbox.confirm({
+			message: "Are you sure to remove all selected books? It can't be undone.",
+			buttons: {
+				cancel: {
+					label:'<i class="fa fa-times"></i> Cancel'
+				},
+				confirm: {
+					label:'<i class="fa fa-check"></i> Confirm'
+				}
+			},
+			callback: function(confirmed) {
+				if(confirmed) {
+					$.ajax({
+						type: 'POST',
+						url: path,
+						data: JSON.stringify(bookIdList),
+						contentType: "application/json",
+						success: function(res) {
+							console.log(res); 
+							location.reload();
+							},
+						error: function(res){
+							console.log(res); 
+							location.reload();
+							}
+					});
+				}
+			}
+		});
+	});
+	
+	$("#selectAllBooks").click(function() {
+		if($(this).prop("checked") == true) {
+			$(".checkboxBook").prop("checked",true);
+		} else if ($(this).prop("checked") == false) {
+			$(".checkboxBook").prop("checked",false);
+		}
+	})
+});
