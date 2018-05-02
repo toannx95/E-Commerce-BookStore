@@ -80,4 +80,33 @@ public class BookController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/updateBook", method = RequestMethod.GET)
+	public ModelAndView updateBook(@RequestParam("id") Long id) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("book", bookService.findOne(id));
+		mav.setViewName("updateBook");
+		return mav;
+	}
+
+	@RequestMapping(value = "/updateBook", method = RequestMethod.POST)
+	public ModelAndView updateBook(@ModelAttribute("book") BookDTO bookDTO) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		bookService.create(bookDTO);
+
+		MultipartFile bookImage = bookDTO.getBookImage();
+		try {
+			byte[] bytes = bookImage.getBytes();
+			String name = bookDTO.getId() + ".png";
+			BufferedOutputStream stream = new BufferedOutputStream(
+					new FileOutputStream(new File("src/main/resources/static/images/book/" + name)));
+			stream.write(bytes);
+			stream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		mav.setViewName("redirect:/book/bookInfo?id=" + bookDTO.getId());
+		return mav;
+	}
+
 }
