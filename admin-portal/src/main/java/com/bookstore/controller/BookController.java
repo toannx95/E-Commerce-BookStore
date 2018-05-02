@@ -56,7 +56,7 @@ public class BookController {
 	@RequestMapping(value = "/bookList", method = RequestMethod.GET)
 	public ModelAndView bookList() {
 		ModelAndView mav = new ModelAndView();
-		List<BookDTO> books = bookService.findAll();
+		List<BookDTO> books = bookService.findByActiveTrue();
 		mav.addObject("bookList", books);
 		mav.setViewName("bookList");
 		return mav;
@@ -75,7 +75,7 @@ public class BookController {
 		ModelAndView mav = new ModelAndView();
 		bookService.delete(Long.parseLong(id.substring(8)));
 
-		mav.addObject("bookList", bookService.findAll());
+		mav.addObject("bookList", bookService.findByActiveTrue());
 		mav.setViewName("redirect:/book/bookList");
 		return mav;
 	}

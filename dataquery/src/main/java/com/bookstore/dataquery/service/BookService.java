@@ -6,7 +6,7 @@ import com.bookstore.dataquery.dto.BookDTO;
 
 public interface BookService {
 
-	List<BookDTO> findAll();
+	List<BookDTO> findByActiveTrue();
 
 	BookDTO findOne(Long id);
 
@@ -15,4 +15,6 @@ public interface BookService {
 	BookDTO update(BookDTO bookDTO);
 
 	void delete(Long id);
+
+	List<BookDTO> findByCategoryAndActiveTrue(String category);
 }

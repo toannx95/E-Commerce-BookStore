@@ -22,8 +22,8 @@ public class BookServiceImpl implements BookService {
 	private BookRepository bookRepository;
 
 	@Override
-	public List<BookDTO> findAll() {
-		Iterable<Book> books = bookRepository.findAll();
+	public List<BookDTO> findByActiveTrue() {
+		Iterable<Book> books = bookRepository.findByActiveTrue();
 
 		if (books == null) {
 			return null;
@@ -51,6 +51,17 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public void delete(Long id) {
 		bookRepository.delete(id);
+	}
+
+	@Override
+	public List<BookDTO> findByCategoryAndActiveTrue(String category) {
+		Iterable<Book> books = bookRepository.findByCategoryAndActiveTrue(category);
+		if (books == null) {
+			return null;
+		}
+
+		Stream<Book> bookStream = StreamSupport.stream(books.spliterator(), false);
+		return bookStream.map(DTOConverter::convertBook).collect(Collectors.toList());
 	}
 
 }
