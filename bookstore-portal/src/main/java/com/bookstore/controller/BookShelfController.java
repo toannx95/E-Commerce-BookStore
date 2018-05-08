@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,7 +18,7 @@ public class BookShelfController {
 	@Autowired
 	private BookService bookService;
 
-	@RequestMapping(value = "bookShelf", method = RequestMethod.GET)
+	@RequestMapping(value = "bookShelf")
 	public ModelAndView bookShelf() {
 		ModelAndView mav = new ModelAndView();
 
@@ -29,7 +28,7 @@ public class BookShelfController {
 		return mav;
 	}
 
-	@RequestMapping(value = "searchByCategory", method = RequestMethod.GET)
+	@RequestMapping(value = "searchByCategory")
 	public ModelAndView searchByCategory(@RequestParam("category") String category) {
 		ModelAndView mav = new ModelAndView();
 
@@ -50,7 +49,7 @@ public class BookShelfController {
 		return mav;
 	}
 
-	@RequestMapping(value = "bookDetail", method = RequestMethod.GET)
+	@RequestMapping(value = "bookDetail")
 	public ModelAndView bookDetail(@RequestParam("id") Long id) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("book", bookService.findOne(id));

@@ -70,6 +70,7 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li><a sec:authorize="isAuthenticated()" th:href="@{/updateUserInfo}" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a></li>
+								<li><a sec:authorize="isAuthenticated()" th:href="@{/listShippingAddress}" class="dropdown-item"><i class="fa fa-user-o"></i> Shipping Address</a></li>
 								<li class="divider dropdown-divider"></li>
 								<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a></li>
 							</ul>

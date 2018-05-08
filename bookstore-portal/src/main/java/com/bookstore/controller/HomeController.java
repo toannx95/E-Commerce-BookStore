@@ -29,22 +29,22 @@ public class HomeController {
 	@Autowired
 	private CustomizeUserDetailsService customizeUserDetailsService;
 
-	@RequestMapping(value = "login", method = RequestMethod.GET)
+	@RequestMapping(value = "login")
 	public String login() {
 		return "login";
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "")
 	public String index() {
 		return "index";
 	}
 
-	@RequestMapping(value = "403", method = RequestMethod.GET)
+	@RequestMapping(value = "403")
 	public String error() {
 		return "403";
 	}
 
-	@RequestMapping(value = "register", method = RequestMethod.GET)
+	@RequestMapping(value = "register")
 	public ModelAndView register() {
 		ModelAndView mav = new ModelAndView();
 		UserDTO userDTO = new UserDTO();
@@ -72,7 +72,7 @@ public class HomeController {
 		return mav;
 	}
 
-	@RequestMapping(value = "updateUserInfo", method = RequestMethod.GET)
+	@RequestMapping(value = "updateUserInfo")
 	public ModelAndView updateUserInfo(Principal principal) {
 		ModelAndView mav = new ModelAndView();
 		UserDTO userDTO = userService.findByUserName(principal.getName());

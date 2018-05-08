@@ -24,7 +24,7 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 
-	@RequestMapping(value = "/addBook", method = RequestMethod.GET)
+	@RequestMapping(value = "/addBook")
 	public ModelAndView addBook() {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("book", new BookDTO());
@@ -33,8 +33,7 @@ public class BookController {
 	}
 
 	@RequestMapping(value = "/addBook", method = RequestMethod.POST)
-	public ModelAndView addBook(@ModelAttribute("book") BookDTO bookDTO) {
-		ModelAndView mav = new ModelAndView();
+	public String addBook(@ModelAttribute("book") BookDTO bookDTO) {
 		bookDTO = bookService.create(bookDTO);
 
 		MultipartFile bookImage = bookDTO.getBookImage();
@@ -48,12 +47,10 @@ public class BookController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		mav.setViewName("redirect:/book/bookList");
-		return mav;
+		return "redirect:/book/bookList";
 	}
 
-	@RequestMapping(value = "/bookList", method = RequestMethod.GET)
+	@RequestMapping(value = "/bookList")
 	public ModelAndView bookList() {
 		ModelAndView mav = new ModelAndView();
 		List<BookDTO> books = bookService.findByActiveTrue();
@@ -62,7 +59,7 @@ public class BookController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/bookInfo", method = RequestMethod.GET)
+	@RequestMapping(value = "/bookInfo")
 	public ModelAndView bookInfo(@RequestParam("id") Long id) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("book", bookService.findOne(id));
@@ -71,16 +68,15 @@ public class BookController {
 	}
 
 	@RequestMapping(value = "/deleteBook", method = RequestMethod.POST)
-	public ModelAndView deleteBook(@ModelAttribute("id") String id) {
-		ModelAndView mav = new ModelAndView();
+	public String deleteBook(@ModelAttribute("id") String id) {
+		// ModelAndView mav = new ModelAndView();
 		bookService.delete(Long.parseLong(id.substring(8)));
-
-		mav.addObject("bookList", bookService.findByActiveTrue());
-		mav.setViewName("redirect:/book/bookList");
-		return mav;
+		// mav.addObject("bookList", bookService.findByActiveTrue());
+		// mav.setViewName("redirect:/book/bookList");
+		return "redirect:/book/bookList";
 	}
 
-	@RequestMapping(value = "/updateBook", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateBook")
 	public ModelAndView updateBook(@RequestParam("id") Long id) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("book", bookService.findOne(id));
@@ -89,10 +85,8 @@ public class BookController {
 	}
 
 	@RequestMapping(value = "/updateBook", method = RequestMethod.POST)
-	public ModelAndView updateBook(@ModelAttribute("book") BookDTO bookDTO) throws Exception {
-		ModelAndView mav = new ModelAndView();
+	public String updateBook(@ModelAttribute("book") BookDTO bookDTO) throws Exception {
 		bookService.create(bookDTO);
-
 		MultipartFile bookImage = bookDTO.getBookImage();
 		try {
 			byte[] bytes = bookImage.getBytes();
@@ -104,9 +98,7 @@ public class BookController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		mav.setViewName("redirect:/book/bookInfo?id=" + bookDTO.getId());
-		return mav;
+		return "redirect:/book/bookInfo?id=" + bookDTO.getId();
 	}
 
 }

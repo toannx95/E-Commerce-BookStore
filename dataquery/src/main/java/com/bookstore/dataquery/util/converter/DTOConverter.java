@@ -86,12 +86,12 @@ public class DTOConverter {
 		return modelMapper.map(userBilling, UserBillingDTO.class);
 	}
 
-	public static UserPaymentDTO convertUserBilling(UserPayment userPayment) {
+	public static UserPaymentDTO convertUserPayment(UserPayment userPayment) {
 		ModelMapper modelMapper = new ModelMapper();
 		return modelMapper.map(userPayment, UserPaymentDTO.class);
 	}
 
-	public static UserShippingDTO convertUserBilling(UserShipping userShipping) {
+	public static UserShippingDTO convertUserShipping(UserShipping userShipping) {
 		ModelMapper modelMapper = new ModelMapper();
 		return modelMapper.map(userShipping, UserShippingDTO.class);
 	}
