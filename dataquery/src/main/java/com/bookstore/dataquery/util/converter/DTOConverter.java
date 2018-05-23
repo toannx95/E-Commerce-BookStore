@@ -32,8 +32,8 @@ import com.bookstore.dataquery.entity.UserShipping;
 public class DTOConverter {
 
 	public static BillingAddressDTO convertBillingAddress(BillingAddress billingAddress) {
-		ModelMapper modelMapper = new ModelMapper();
-		return modelMapper.map(billingAddress, BillingAddressDTO.class);
+		//ModelMapper modelMapper = new ModelMapper();
+		return new ModelMapper().map(billingAddress, BillingAddressDTO.class);
 	}
 
 	public static BookDTO convertBook(Book book) {
